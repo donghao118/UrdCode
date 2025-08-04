@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/utils/p2p";
+
+package utils.p2p;
+
+message Peer {
+    string iP = 1;
+    map<string,bool> chain = 2;
+    string pubkey = 3;
+
+    int32 vote = 4;
+}

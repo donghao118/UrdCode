@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/pyramid/types";
+
+package pyramid.types;
+
+//import "proto/third_party/timestamp.proto";
+import "proto/crypto/merkle/proof.proto";
+
+message Part {
+    int64 height = 1;
+    int32 round = 2;
+    bytes bytes = 3;
+    crypto.merkle.Proof proof = 4;
+    string ChainID = 5;
+}
+
+message PartSetHeader {
+    int64 total = 1;
+    bytes root = 2;
+    int64 height = 3;
+    int32 round = 4;
+    string ChainID = 5;
+}

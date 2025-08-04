@@ -1,0 +1,32 @@
+{
+    "ip_in_use": {
+        "192.168.0.4": 5
+    },
+    "shards": [
+        {
+            "chain_id": "i1",
+            "peer_num": 40,
+            "key_range": "10,11"
+        },
+        {
+            "chain_id": "i2",
+            "peer_num": 40,
+            "key_range": "21,22"
+        },
+        {
+            "chain_id": "i3",
+            "peer_num": 40,
+            "key_range": "31,32"
+        },
+        {
+            "chain_id": "i4",
+            "peer_num": 40,
+            "key_range": "41,42"
+        },
+        {
+            "chain_id": "i5",
+            "peer_num": 40,
+            "key_range": "51,52"
+        }
+    ]
+}

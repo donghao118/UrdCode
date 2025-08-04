@@ -1,0 +1,1 @@
+./urd --method=generate --config=./11s.json --root=./mytestnet

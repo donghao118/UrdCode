@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/urd/types";
+
+package urd.types;
+
+import "proto/core/hotstuff/votes.proto";
+import "proto/crypto/merkle/proof.proto";
+import "proto/third_party/timestamp.proto";
+
+message CommitIntention {
+    repeated bytes intention_hash = 1;
+    repeated core.hotstuff.AggregatedVote aggregated_signatures = 2;
+}
+
+message ProofOfIntention{
+    crypto.merkle.Proof intention_hash_proof = 1;
+    bytes right_hash       = 2;
+}
+
+message CommitCertificateCore {
+    bytes hash = 1;
+    ProofOfIntention m_k_proof = 2;
+    repeated bytes intention_brief = 3;
+}
+message CommitCertificate {
+    repeated CommitCertificateCore cores = 1;
+}
+message OutputTxsProof {
+    crypto.merkle.Proof block_proof = 1;
+    crypto.merkle.Proof OPT_proof = 2;
+}
+
+message Header {
+    bytes hash_pointer = 1;
+
+    string chain_i_d = 2;
+    int64 view = 3;
+    int32 round = 4;
+    google.protobuf.Timestamp Time = 5;
+
+    bytes prepare_root = 6;
+    bytes output_txs_root = 7;
+    bytes last_agg_sig_root = 8;
+    bytes commit_intention_root = 9;
+    bytes commit_certificate_root = 10;
+    bytes commit_txs_root = 11;
+    bytes state_root = 12;
+}
+
+message Block {
+    Header header = 1;
+    Txs prepare_txs = 2;
+    repeated bytes o_p_t = 3;
+    core.hotstuff.AggregatedVote agg_sig_vote = 4;
+    CommitIntention c_i = 5;
+    CommitCertificate c_c = 6;
+    repeated Txs c_t_x_s = 7;
+    repeated OutputTxsProof c_t_x_s_proof = 8;
+    Txs cross_shard_txs = 9;
+}
+
+message Txs {
+    repeated bytes txs = 1;
+}
+
+message CrossShardMessage {
+    string source_chain = 1;
+    core.hotstuff.AggregatedVote agg_vote = 2;
+
+    repeated bytes intention_brief = 3;
+    ProofOfIntention proof_of_intention = 4;
+
+    Txs OPT_txs = 5;
+    OutputTxsProof output_txs_proof = 6;
+}

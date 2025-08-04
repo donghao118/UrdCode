@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/pyramid/types";
+
+package pyramid.types;
+
+import "proto/third_party/timestamp.proto";
+
+message Header {
+    int32 BlockType = 1;
+    bytes HashPointer = 2;
+
+    string ChainID = 3;
+    int64 Height = 4;
+    google.protobuf.Timestamp Time = 5;
+
+    bytes BodyRoot = 6;
+    bytes StateRoot = 8;
+    bytes ReceiptRoot = 9;
+    bytes RelationRoot = 7;
+    bytes CrossShardBodyRoot = 10;
+
+    //bytes ProposerAddr = 11;
+}
+
+message Commit {
+    int64 Height = 1;
+    int32 Round = 2;
+    bytes BlockHash = 3;
+    repeated bytes Sigs = 4;
+}
+
+message Relation {
+    repeated bytes related_commit_status = 1;
+    repeated bytes related_hash = 2;
+    bytes my_commit_status = 3;
+    //Commit last_commit = 4;
+}
+
+message Body {
+    repeated bytes txs = 1;
+}
+
+message CrossShardBody {
+    repeated bytes txs = 1;
+    repeated bytes cross_shard_datas = 2;
+}
+
+message Block {
+    Header header = 1;
+    Body body = 2;
+    CrossShardBody CrossShardBody = 3;
+    Relation relation = 4;
+}

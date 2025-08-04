@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/utils/p2p";
+
+package utils.p2p;
+
+message Envelop {
+    int32 channel_id = 1;
+    bytes message = 2;
+    uint32 messageType = 3;
+}

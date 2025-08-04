@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/pyramid/consensus/types";
+
+package pyramid.consensus.types;
+
+import "proto/pyramid/types/block.proto";
+import "proto/pyramid/consensus/types/vote.proto";
+
+
+message CrossShardBlock {
+    pyramid.types.Block block = 1;
+    PrecommitAggregated  collective_signatures = 2;
+}
+
+message MessageAccept{
+    bytes b_block_hash = 1;
+    PrecommitAggregated  collective_signatures = 2;
+}
+
+message MessageAcceptSet {
+    bytes block_hash = 1;
+    repeated MessageAccept accepts = 2;
+}
+
+message MessageCommit {
+    bytes b_block_hash = 1;
+    PrecommitAggregated  collective_signatures = 2;
+}
+
+message MessageOK {
+    string chain_ID = 1;
+    int64 height = 2;
+}

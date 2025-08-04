@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/urd/shardinfo";
+
+package urd.shardinfo;
+
+import "proto/utils/p2p/peer.proto";
+
+message Shard {
+    int32 total_votes = 1;
+    repeated utils.p2p.Peer peer_list = 2;
+}
+
+message ShardInfo {
+    map<string, Shard> shard_list = 1;
+}
+

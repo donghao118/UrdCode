@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/urd/abci/minibank";
+
+package urd.abci.minibank;
+
+import "proto/third_party/timestamp.proto";
+
+message TransferTx {
+    repeated string from = 1;
+    repeated string to = 2;
+    repeated uint32 from_money = 3;
+    repeated uint32 to_money = 4;
+    bytes    buffer = 5;
+    google.protobuf.Timestamp Time = 6;
+    repeated string shards = 7;
+}
+
+message InsertTx {
+    string account = 1;
+    uint32 money = 2;
+    bytes  buffer= 3;
+    google.protobuf.Timestamp Time = 4;
+}
+
+message RelayTransferTxSet {
+   repeated string shards = 1;
+   repeated BankData datas = 2;
+   bytes    raw_tx = 3;
+}
+
+message RelayTransferTx {
+    BankData datas = 1;
+    bytes tx_hash = 2;
+}
+
+message BankData {
+    repeated string keys = 1;
+    bool o_k = 2;
+    repeated uint32 values = 3;
+}
+
+message RelayTransferTxList {
+    map<string,BankData> txs = 1;
+}

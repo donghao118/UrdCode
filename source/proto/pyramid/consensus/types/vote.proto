@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/pyramid/consensus/tendermint/types";
+
+package pyramid.consensus.tendermint.types;
+
+import "proto/pyramid/types/part.proto";
+
+// ========== Proposal ========================
+message Proposal {
+    uint32 vote_type = 1;
+    
+    pyramid.types.PartSetHeader header = 2;
+    int32 proposer_index = 3;
+    bytes block_header_hash = 4;
+
+    string signature = 5;
+}
+
+message Prevote {
+    uint32 vote_type = 1;
+
+    int32 validator_index = 2;
+    int64 height = 3;
+    int32 round = 4;
+    int32 code = 7;
+
+    bytes block_header_hash = 5;
+
+    string signature = 6;
+}
+
+message Precommit{
+    uint32 vote_type = 1;
+
+    int32 validator_index = 2;
+    int64 height = 3;
+    int32 round = 4;
+
+    bytes block_header_hash = 5;
+
+    string signature = 6;
+
+    int32 code = 7;
+}
+
+message PrecommitAggregated {
+    uint32 vote_type = 1;
+
+    bytes validator_bit_vector = 2;
+
+    pyramid.types.PartSetHeader header = 3;
+    bytes block_header_hash = 4;
+
+    string aggregated_signatures = 5;
+
+    int32 code = 6;
+}
+

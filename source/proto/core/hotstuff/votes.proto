@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/core/hotstuff";
+
+package core.hotstuff;
+
+message Vote {
+    int32 code              = 1;
+    int64 view            = 2;
+    int32 round              = 3;
+    bytes for_hash          = 4;
+    repeated bytes for_necessary_data = 7;
+
+    string sign              = 5;
+    int32 validator_index   = 6;
+}
+
+message AggregatedVote {
+    int32 code              = 1;
+    int64 view            = 2;
+    int32 round              = 3;
+    bytes for_hash          = 4;
+    repeated bytes for_necessary_data = 7;
+
+    string sign     = 5;
+    bytes    SignerIndex    = 6;
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package = "emulator/proto/pyramid/shardinfo";
+
+package pyramid.shardinfo;
+
+import "proto/utils/p2p/peer.proto";
+
+message ShardInfo {
+    map<string, RepeatedPeers> peerList = 1;
+    map<string, bool> relatedShards = 2;
+    map<string, RepeatedString> peer_related_map = 4;
+    int32     shard_identity = 5;
+}
+
+message RepeatedPeers {
+    repeated utils.p2p.Peer peers = 1;
+}
+
+message RepeatedString{
+    repeated string str = 1;
+}
