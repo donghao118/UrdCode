@@ -5,3 +5,5 @@ build/logger
 
 build/urd
 build/urd-latency
+
+build/*mytestnet*/
