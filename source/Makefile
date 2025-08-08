@@ -3,16 +3,16 @@ TARGET_DIR := "../build"
 
 
 proto-gen:
-	@ echo "为./proto中所有.proto文件生成.pb.go文件"
+	@ echo "Generate .pb.go files for all .proto files in ./proto..."
 	@ find ./proto -type f -name "*.proto" -exec protoc --proto_path=. --go_out=. --go_opt=paths=source_relative {} \;
-	@ echo "生成结束"
+	@ echo "Generation has finished!"
 .PHONY: proto-gen
 
 
 proto-delete:
-	@ echo "删除./proto中所有.pb.go文件"
+	@ echo "Remove all .pb.go files in ./proto..."
 	@ find ./proto -type f -name "*.pb.go" -delete
-	@ echo "删除结束"
+	@ echo "Removal has finished"
 .PHONY: proto-delete
 
 build-urd:
@@ -51,20 +51,6 @@ build-pyramid-latancy:
 	@ echo "move to $(TARGET_DIR)"
 	@ mv pyramid/abci/minibank/main/main $(TARGET_DIR)/pyramid-latency
 .PHONY: build-pyramid-latancy
-
-build-rapid:
-	@ echo "Building rapid..."
-	@ cd rapid/main && go build
-	@ echo "move to $(TARGET_DIR)"
-	@ mv rapid/main/main $(TARGET_DIR)/rapid
-.PHONY: build-rapid
-
-build-rapid-latancy:
-	@ echo "Building rapid latency..."
-	@ cd rapid/abci/minibank/main && go build
-	@ echo "move to $(TARGET_DIR)"
-	@ mv rapid/abci/minibank/main/main $(TARGET_DIR)/rapid-latency
-.PHONY: build-rapid-latancy
 
 build-store:
 	@ echo "Building store..."

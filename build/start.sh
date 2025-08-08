@@ -1,7 +1,8 @@
 #!/bin/bash
 
-target_folder=./mytestnet/192.168.0.4
-start_time=17:36
+target_folder=./mytestnet40-5s/192.168.0.4
+start_time=0:29
+bash remove-file.sh $target_folder
 
 #start.sh
 

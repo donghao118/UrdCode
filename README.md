@@ -78,4 +78,4 @@ Install all prerequisites, then enter the `source` folder and run `make build-al
 
 ## How to Start
 
-For protocol details, refer to the [Tendermint Specification](./source/start.md)
+For protocol details and the way to deploy Urd, refer to the [Startup Guidelines](./source/start.md)

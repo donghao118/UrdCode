@@ -1,1 +1,1 @@
-./urd --method=generate --config=./11s.json --root=./mytestnet
+./urd --method=generate --config=./10nodes/11s.json --root=./mytestnet
