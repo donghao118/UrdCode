@@ -77,9 +77,9 @@ func (state *State) handle_state_transition() error {
 
 	state.step = state.next_step()
 
-	if state.isProposer() && state.HotStuffState.View > 100 {
+	if state.isProposer() && (state.EnablePipelineFlag && state.HotStuffState.View > 100 || state.HotStuffState.View > 600) {
 		state.Stop()
-		panic("Interupt")
+		panic("Interupted")
 	}
 	return state.handle_state_transition()
 }
@@ -195,7 +195,7 @@ func (state *State) commit_and_execution_j_2() (types.ABCIExecutionResponse, err
 		// execution CTXs of voting round j-6, whose merkle root is included in block j-2 as a Commitment Certificate
 		state.WriteCmd(fmt.Sprintf("start to execute block for view %d", block_j_2.View))
 		resp := state.abci.Execution(block_j_2.PTXS, block_j_2.CrossShardTxs, block_j_2.CTXS)
-		state.WriteLogger(fmt.Sprintf("finish[%d,%d,%d]", block_j_2.CrossShardTxs.Size()/2, block_j_2.PTXS.Size(), 0), false, true)
+		state.WriteLogger(fmt.Sprintf("finish[%d,%d,%d]", block_j_2.PTXS.Size(), block_j_2.CrossShardTxs.Size()/2, block_j_2.CrossShardTxs.Size()/2), false, true)
 		return *resp, nil
 	}
 	return types.ABCIExecutionResponse{}, nil
@@ -287,16 +287,19 @@ func (state *State) make_block(execution_result types.ABCIExecutionResponse) *ty
 		block.AggSigVote = state.block_data.j_1finished[state.chain_id].AggVote
 	}
 
+	state.WriteCmd(fmt.Sprintf("max_intra_shard: %d KB | max_cross_shard: %d KB", state.max_bytes/1024, state.max_cross_shard_bytes/1024))
 	// PTXS
-	if txs, _, err := state.mempool.ReapTx(state.max_bytes); err != nil {
-		return nil
-	} else {
-		block.PTXS = txs
-	}
-	if txs, _, err := state.cross_shard_mempool.ReapTx(state.max_cross_shard_bytes); err != nil {
-		return nil
-	} else {
-		block.CrossShardTxs = txs
+	if state.EnablePipelineFlag || state.HotStuffState.View%6 == 0 {
+		if txs, _, err := state.mempool.ReapTx(state.max_bytes); err != nil {
+			return nil
+		} else {
+			block.PTXS = txs
+		}
+		if txs, _, err := state.cross_shard_mempool.ReapTx(state.max_cross_shard_bytes); err != nil {
+			return nil
+		} else {
+			block.CrossShardTxs = txs
+		}
 	}
 
 	// OPT

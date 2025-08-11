@@ -25,7 +25,7 @@ func main() {
 		GenerateConfigFiles(*jsonDir, *rootDir)
 	} else if method == "start" {
 		InitNode(*rootDir, startTimeStr, waitTime)
-	} else if method == "example-shard-config" {
+	} else if method == "example" {
 		config := ExampleShardConfig()
 		config.WriteJSONToFile(filepath.Join(*rootDir, "example-shard-config.json"))
 	} else {

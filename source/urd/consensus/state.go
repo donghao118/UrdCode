@@ -19,6 +19,8 @@ import (
 )
 
 type State struct {
+	EnablePipelineFlag bool
+
 	HotStuffState *hotstuff.State
 
 	mempool             inter.MempoolConn

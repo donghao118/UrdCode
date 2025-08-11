@@ -12,6 +12,7 @@ import (
 	"errors"
 	"fmt"
 	"sort"
+	"time"
 
 	"google.golang.org/protobuf/proto"
 )
@@ -72,12 +73,14 @@ func (app *Application) ValidateTx(tx []byte, isCrossShard bool) bool {
 func (app *Application) Execution(txs types.Txs, cross_shard_txs types.Txs, CTXS []types.Txs) *types.ABCIExecutionResponse {
 	resp := new(types.ABCIExecutionResponse)
 	db := NewDB(app.db, app.KeyRangeTrees[app.chain_id])
+	fmt.Println(time.Now(), "execute CTXS")
 	for i, ctxs := range CTXS {
 		chain := app.shard_info.ShardIDList[i]
 		for _, opt := range ctxs {
 			app.executeRelay(opt, chain, db)
 		}
 	}
+	fmt.Println(time.Now(), "execute txs")
 	for _, tx := range txs {
 		receipt := new(types.ABCIExecutionReceipt)
 		err := app.execute(tx, db)
@@ -90,7 +93,10 @@ func (app *Application) Execution(txs types.Txs, cross_shard_txs types.Txs, CTXS
 		receipt.SetRawTx(tx)
 		resp.Responses = append(resp.Responses, receipt)
 	}
+
+	fmt.Println(time.Now(), "execute cross_shard_txs")
 	resp.OPTxs = app.preExecution(cross_shard_txs)
+	fmt.Println(time.Now(), "finish")
 	return resp
 }
 

@@ -23,7 +23,7 @@ import (
 	"github.com/herumi/bls-eth-go-binary/bls"
 )
 
-func InitNode(rootDir string, startTimeStr string, waitTime string) {
+func InitNode(rootDir string, startTimeStr string, waitTime string, enable_pipeline bool) {
 	defer fmt.Println("test ending")
 
 	var cfg = new(Config)
@@ -72,6 +72,7 @@ func InitNode(rootDir string, startTimeStr string, waitTime string) {
 		mempool, cross_shard_mempool,
 		abci, sender,
 		logger,
+		enable_pipeline,
 	)
 	receiver.AddChennel(consensus, p2p.ChannelIDConsensusState)
 	receiver.AddChennel(mempool, p2p.ChannelIDMempool)
@@ -86,8 +87,9 @@ func InitNode(rootDir string, startTimeStr string, waitTime string) {
 	}
 
 	startTime := time_to_start(startTimeStr)
-	fmt.Println(time.Until(startTime))
+	fmt.Println("Time until genesis time:", time.Until(startTime))
 	time.Sleep(time.Until(startTime))
+	time.Sleep(3 * time.Second)
 
 	// The SENDER is started after a certain delay to ensure that all RECEIVERS have been started completel
 	if err := sender.Start(); err != nil {
@@ -146,7 +148,7 @@ func createP2p(cfg *Config, si *shardinfo.ShardInfo) (*p2p.Sender, *p2p.Receiver
 	return sender, receiver
 }
 func createConsensus(cfg *Config, si *shardinfo.ShardInfo, s *signer.Signer, mmp, cmmp definition.MempoolConn,
-	abci definition.ABCIConn, sender *p2p.Sender, logger blocklogger.BlockWriter) definition.ConsensusConn {
+	abci definition.ABCIConn, sender *p2p.Sender, logger blocklogger.BlockWriter, enable_pipeline bool) definition.ConsensusConn {
 	state, err := consensus.NewState(
 		0, 0,
 		s, cfg.SignerIndex,
@@ -154,6 +156,7 @@ func createConsensus(cfg *Config, si *shardinfo.ShardInfo, s *signer.Signer, mmp
 		mmp, cmmp, abci, sender, cfg.StoreDirRoot(), logger,
 		cfg.MaxBlockTxBytes, cfg.MaxBlockCrossShardTxBytes,
 	)
+	state.EnablePipelineFlag = enable_pipeline
 	if err != nil {
 		panic(err)
 	}

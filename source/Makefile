@@ -22,12 +22,12 @@ build-urd:
 	@ mv urd/main/main $(TARGET_DIR)/urd
 .PHONY: build-urd
 
-build-urd-latancy:
+build-urd-latency:
 	@ echo "Building urd latency..."
 	@ cd urd/abci/minibank/main && go build
 	@ echo "move to $(TARGET_DIR)"
 	@ mv urd/abci/minibank/main/main $(TARGET_DIR)/urd-latency
-.PHONY: build-urd-latancy
+.PHONY: build-urd-latency
 
 
 build-block-logger:
@@ -45,12 +45,12 @@ build-pyramid:
 	@ mv pyramid/main/main $(TARGET_DIR)/pyramid
 .PHONY: build-pyramid
 
-build-pyramid-latancy:
+build-pyramid-latency:
 	@ echo "Building pyramid latency..."
 	@ cd pyramid/abci/minibank/main && go build
 	@ echo "move to $(TARGET_DIR)"
 	@ mv pyramid/abci/minibank/main/main $(TARGET_DIR)/pyramid-latency
-.PHONY: build-pyramid-latancy
+.PHONY: build-pyramid-latency
 
 build-store:
 	@ echo "Building store..."
@@ -64,5 +64,5 @@ build-all:
 	make build-block-logger
 	make build-store
 	make build-urd
-	make build-urd-latancy
+	make build-urd-latency
 .PHONY: build-all

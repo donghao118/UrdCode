@@ -194,7 +194,16 @@ func (bd *BlockData) append_part(part *types.Part) {
 }
 
 func (state *State) WriteLogger(msg string, is_start, is_end bool) {
-	state.logger.Write(blocklogger.NewConsensusEvent(state.HotStuffState.View, state.HotStuffState.Round, state.step, is_start, is_end, msg))
+	if state.EnablePipelineFlag ||
+		is_start && state.HotStuffState.View%6 == 0 ||
+		is_end && state.HotStuffState.View%6 == 2 ||
+		!is_end && !is_start && state.HotStuffState.View%6 == 1 {
+		view, round, step := state.HotStuffState.View, state.HotStuffState.Round, state.step
+		if !state.EnablePipelineFlag {
+			view /= 6
+		}
+		state.logger.Write(blocklogger.NewConsensusEvent(view, round, step, is_start, is_end, msg))
+	}
 }
 func (state *State) WriteCmd(msg string) {
 	fmt.Printf("[%v] (view=%d,round=%d,step=%s) %s\n", time.Now(), state.HotStuffState.View, state.HotStuffState.Round, state.step, msg)

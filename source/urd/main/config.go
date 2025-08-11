@@ -25,8 +25,8 @@ const (
 const (
 	defaultMinBlockInterval          = "10ms"
 	defaultMaxBlockPartSize          = 200 * 1024 // 20 KB
-	defaultMaxBlockTxBytes           = 160 * 1024
-	defaultMaxBlockCrossShardTxBytes = 640 * 1024
+	defaultMaxBlockTxBytes           = 20 * 1024
+	defaultMaxBlockCrossShardTxBytes = 160 * 1024
 	defaultProtocal                  = "tendermint"
 	defaultABCI                      = "minibank"
 )

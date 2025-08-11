@@ -25,6 +25,9 @@ func main() {
 		n = len(js)
 	}
 	for i := 0; i < n; i++ {
+		if js[i]-is[i] < 5 {
+			continue
+		}
 		tps, commit_rate, err := rd.CalculateTPS(is[i], js[i])
 		if err != nil {
 			panic(err)

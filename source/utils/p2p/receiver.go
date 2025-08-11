@@ -40,18 +40,16 @@ func (r *Receiver) AddChennel(reactor Reactor, channel_id byte) {
 
 func (r *Receiver) Start() error {
 	ipPort := fmt.Sprintf("%s:%d", r.localIP, r.localPort)
-	// 监听指定端口
 	listener, err := net.Listen("tcp", ipPort)
 	if err != nil {
 		return fmt.Errorf(fmt.Sprintln("Error listening:", err))
 	}
 
-	log.Println("Receiver启动，开始监听", ipPort)
+	log.Println("Receiver has started. Listening", ipPort)
 
 	go func() {
 		defer listener.Close()
 		for {
-			// 接受传入连接
 			conn, err := listener.Accept()
 			if err != nil {
 				fmt.Println("Error accepting connection:", err)
@@ -71,7 +69,6 @@ func (r *Receiver) handleConnection(conn net.Conn) {
 	clientReader := bufio.NewReader(conn)
 	//log.Println("start")
 	for {
-		// 读取消息长度
 		bz, err := clientReader.ReadBytes('\n')
 		if len(bz) == 0 {
 			continue
@@ -101,7 +98,7 @@ func (r *Receiver) handleConnection(conn net.Conn) {
 						fmt.Println(err)
 					}
 				} else {
-					log.Printf("error: 通道%c不存在\n", chid)
+					log.Printf("error: channel of %c doesn't exist\n", chid)
 				}
 			}
 		case io.EOF:

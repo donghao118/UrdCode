@@ -6,4 +6,7 @@ build/logger
 build/urd
 build/urd-latency
 
+build/pyramid
+build/pyramid-latency
+
 build/*mytestnet*/

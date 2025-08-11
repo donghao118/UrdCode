@@ -53,6 +53,9 @@ func (b *BlockLoggerReader) CalculateTPS(i, j int) (float64, float64, error) {
 	}
 
 	for _, event := range b.events {
+		if event.Height < 2 {
+			continue
+		}
 		if event.IsRoundStart && event.Height == int64(i) {
 			start = event.Time
 		}

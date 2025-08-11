@@ -1,0 +1,65 @@
+{
+    "ip_in_use": {
+        "192.168.0.4": 5
+    },
+    "shards": [
+        {
+            "chain_id": "i1",
+            "peer_num": 64,
+            "related_shards": [
+                "b1"
+            ],
+            "is_ishard": true,
+            "key_range": "[10,11]"
+        },
+        {
+            "chain_id": "i2",
+            "peer_num": 64,
+            "related_shards": [
+                "b1",
+                "b2"
+            ],
+            "is_ishard": true,
+            "key_range": "[11,12]"
+        },
+        {
+            "chain_id": "i3",
+            "peer_num": 64,
+            "related_shards": [
+                "b2"
+            ],
+            "is_ishard": true,
+            "key_range": "[15,16]"
+        },
+        {
+            "chain_id": "i4",
+            "peer_num": 64,
+            "related_shards": [
+                "b2"
+            ],
+            "is_ishard": true,
+            "key_range": "[18,19]"
+        },
+        {
+            "chain_id": "b1",
+            "peer_num": 62,
+            "related_shards": [
+                "i1",
+                "i2"
+            ],
+            "is_ishard": false,
+            "key_range": "[20,21]"
+        },
+        {
+            "chain_id": "b2",
+            "peer_num": 62,
+            "related_shards": [
+                "i2",
+                "i3",
+                "i4"
+            ],
+            "is_ishard": false,
+            "key_range": "[22,23]"
+        }
+    ]
+}
